@@ -770,32 +770,32 @@ SMODS.Atlas {
       end
     end
   }
-SMODS.Joker{
-    key = "awesome-egg",
-    loc_txt = 
-    {
-      name = "Awesome Egg",
-      text = 
-      {
-        "Has a {C:green}#2#/#3#{} chance to",
-        "{C:Money}x#1#{} sell value",
-        "at the end of round"
-      }
-    },
-    config = {extra = {Xmoney = 3, odds = 3}},
-    rarity = 2,
-    atlas = "MoarJokers",
-    pos = {x = 0, y = 0},
-    cost = 4,
-    unlocked = false,
-    discovered = false,
-    blueprint_compat = false,
-    loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.Xmoney}}
-    end,
-    if context.end_of_round and not context.game_over and not context.repetition and not context.blueprint then
-      if pseudorandom('awesome-egg') < G.GAME.probabilities.normal / card.ability.extra.odds then
-      card.sell_cost = card.sell_cost * card.ability.extra.Xmoney
-      card = card
-    end
-  }
+--SMODS.Joker{
+    --key = "awesome-egg",
+    --loc_txt = 
+    --{
+      --name = "Awesome Egg",
+      --text = 
+     --{
+        --"Has a {C:green}#2#/#3#{} chance to",
+        --"{C:Money}x#1#{} sell value",
+        --"at the end of round"
+      --}
+    --},
+    --config = {extra = {Xmoney = 3, odds = 3}},
+    --rarity = 2,
+   --atlas = "MoarJokers",
+    --pos = {x = 0, y = 0},
+    --cost = 4,
+    --unlocked = false,
+    --discovered = false,
+    --blueprint_compat = false,
+    --loc_vars = function(self, info_queue, card)
+      --return {vars = { card.ability.extra.Xmoney}}
+    --end,
+    --if context.end_of_round and not context.game_over and not context.repetition and not context.blueprint then
+      --if pseudorandom('awesome-egg') < G.GAME.probabilities.normal / card.ability.extra.odds then
+      --card.sell_cost = card.sell_cost * card.ability.extra.Xmoney
+      --card = card
+    --end
+  --}
