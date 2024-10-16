@@ -710,7 +710,7 @@ SMODS.Atlas {
         "Played cards that are in the",
         "{C:attention}Prime Number{} set give",
         "{C:mult}+#1#{} mult and {C:chips}+#2#{} chips",
-        "{C:inactive}(2, 3, 5, 7){}"
+        "{C:inactive}(2, 3, 5, 7, A){}"
       }
     },
     config = {extra = {mult = 5, chips = 11}},
@@ -726,7 +726,7 @@ SMODS.Atlas {
     end,
     calculate = function(self, card, context)
       if context.individual
-      and (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 5 or context.other_card:get_id() == 7) then
+      and (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 5 or context.other_card:get_id() == 7 or context.other_card:get_id() == 11) then
         return {
           mult = card.ability.extra.mult,
           chips = card.ability.extra.chips,
