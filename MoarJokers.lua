@@ -405,8 +405,8 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.5 } },
-    rarity = 2,
+    config = {extra = { XMult = 1, mult_gain = 0.33 } },
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 3, y = 0},
     cost = 5,
@@ -448,8 +448,8 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.5 } },
-    rarity = 2,
+    config = {extra = { XMult = 1, mult_gain = 0.33 } },
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 4, y = 0},
     cost = 5,
@@ -492,8 +492,8 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.75 } },
-    rarity = 2,
+    config = {extra = { XMult = 1, mult_gain = 0.66 } },
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 3, y = 1},
     cost = 6,
@@ -537,7 +537,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.75 } },
-    rarity = 2,
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 4, y = 1},
     cost = 6,
@@ -581,7 +581,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = { XMult = 1, mult_gain = 1 } },
-    rarity = 2,
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 0, y = 2},
     cost = 6,
@@ -625,10 +625,10 @@ SMODS.Atlas {
       }
     },
     config = {extra = { XMult = 1, mult_gain = 1 } },
-    rarity = 2,
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 1, y = 2},
-    cost = 5,
+    cost = 6,
     unlocked = true,
     discovered = false,
     blueprint_compat = true,
@@ -668,11 +668,11 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.5 } },
-    rarity = 2,
+    config = {extra = { XMult = 1, mult_gain = 1 } },
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 2, y = 2},
-    cost = 5,
+    cost = 6,
     unlocked = true,
     discovered = false,
     blueprint_compat = true,
