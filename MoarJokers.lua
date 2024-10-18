@@ -568,50 +568,6 @@ SMODS.Atlas {
     end
   }
   SMODS.Joker{
-    key = "royal-house-richard",
-    loc_txt = 
-    {
-      name = "Royal House Richard",
-      text = 
-      {
-        "Gains {X:red,C:white}x#2#{} Mult",
-        "if played hand",
-        "contains a {C:attention}Royal House{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
-      }
-    },
-    config = {extra = { XMult = 1, mult_gain = 1 } },
-    rarity = 3,
-    atlas = 'MoarJokers',
-    pos = {x = 0, y = 2},
-    cost = 6,
-    unlocked = true,
-    discovered = false,
-    blueprint_compat = true,
-    loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.XMult, card.ability.extra.mult_gain }}
-    end,
-    calculate = function(self, card, context)
-      if context.joker_main then
-        return {
-          Xmult_mod = card.ability.extra.XMult,
-          message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
-        }
-      end
-      if context.before and  context.poker_hands == 'Royal House' and not context.blueprint then
-        card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
-        return {
-          message = localize('k_upgrade_ex'),
-          colour = G.C.MULT,
-          -- The return value, "card", is set to the variable "card", which is the joker.
-          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
-          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
-          card = card
-        }
-      end
-    end
-  }
-  SMODS.Joker{
     key = "flush-house-felicity",
     loc_txt = 
     {
