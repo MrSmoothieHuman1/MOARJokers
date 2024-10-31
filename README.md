@@ -10,7 +10,7 @@ The current list of added jokers is here, if you are curious:
 
 (Xmult Xtravanganza set)
 * High Card Howard: gains 0.15x mult when a High Card is played. (starts at 1x mult)
-* Pair Pauline: gains 0.25x mult when a hand containing Pair is played. (starts at 1x mult)
+* Pair Pauline: gains 0.2x mult when a hand containing Pair is played. (starts at 1x mult)
 * Two Pair Theodore: gains 0.25x mult when a hand containing Two Pair is played. (starts at 1x mult)
 * Three of a Kind Tedward: gains 0.33x mult when a hand containing Three of a Kind is played. (starts at 1x mult)
 * Four of a Kind Faye: gains 0.44x mult when a hand containing Four of a Kind is played. (starts at 1x mult)
