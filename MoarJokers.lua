@@ -682,7 +682,7 @@ SMODS.Atlas {
     end,
     calculate = function(self, card, context)
       if context.individual
-      and (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 5 or context.other_card:get_id() == 7 or context.other_card:get_id() == 11) then
+      and (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 5 or context.other_card:get_id() == 7 or context.other_card:get_id() == 14) then
         return {
           mult = card.ability.extra.mult,
           chips = card.ability.extra.chips,
