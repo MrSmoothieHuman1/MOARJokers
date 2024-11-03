@@ -726,6 +726,45 @@ SMODS.Atlas {
       end
     end
   }
+SMODS.Joker {
+    key = 'ice-onion',
+    loc_txt = 
+    {
+      name = 'Ice Onion',
+      text = {
+        "Gains {C:attention}half{} of the {C:chips}Chips{}",
+        "given by every played card",
+        "{C:inactive}(Currently {C:chips}+#1#{} Chips){}"
+      }
+    },
+    rarity = 3,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 2, y = 5},
+    cost = 6,
+    config = {extra = {chips = 0}},
+    blueprint_compat = false,
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.chips}}
+    end,
+    calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and not context.blueprint then
+      card.ability.extra.chips = card.ability.extra.chips + context.other_card.base.nominal / 2
+        return{
+          colour = G.C.CHIPS,
+          card = card,
+        }
+      end
+      if context.joker_main then 
+        return{
+              message = localize{type = "variable", key = "a_chips", vars = {card.ability.extra.chips}},
+              colour = G.C.CHIPS,
+              chip_mod = card.ability.extra.chips,
+      }
+      end
+    end
+  }
 --SMODS.Joker{
     --key = "awesome-egg",
     --loc_txt = 
