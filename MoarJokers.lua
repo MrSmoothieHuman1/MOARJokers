@@ -12,7 +12,7 @@
 --if see 'self' in balatro code, turn it into 'card' in API code
 
  --Creates an atlas for cards to use
-SMODS.Atlas {
+ SMODS.Atlas {
     key = "MoarJokers",
     path = "MoarJokers.png",
     px = 71,
@@ -658,6 +658,7 @@ SMODS.Atlas {
         }
       end
     end
+end
   }
 
   SMODS.Joker{
