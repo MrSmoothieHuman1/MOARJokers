@@ -25,7 +25,7 @@ SMODS.Atlas {
     loc_txt = {
       name = 'X-Ray',
       text = {
-        "All non-face cards played",
+        "All {C:attention}non-face{} cards played",
         "give {C:mult}+#1#{} Mult"
       }
     },
@@ -62,7 +62,7 @@ SMODS.Atlas {
     {
       name = 'Yang',
       text = {
-        "Retriggers every Heart and Diamond",
+        "Retriggers every {C:hearts}Heart{} and {C:diamonds}Diamond{}",
         "card played",
       }
     },
@@ -95,7 +95,7 @@ SMODS.Atlas {
     {
       name = 'Yin',
       text = {
-        "Retriggers every Spade and Club",
+        "Retriggers every {C:spades}Spade{} and {C:clubs}Club{}",
         "card played",
       }
     },
@@ -707,14 +707,14 @@ SMODS.Atlas {
       name = 'Red Onion',
       text = {
         "Gains {C:mult}+#2# Mult{} for",
-        "every Heart card played",
+        "every {C:hearts}Heart{} card played",
         "(~axes at {C:attention}100{})",
         "{C:inactive}(Currently at {C:mult}#1#{} Mult){}"
       }
     },
     rarity = 3,
     unlocked = true,
-    discovered = false,
+    discovered = true,
     atlas = "MoarJokers",
     pos = {x = 0, y = 4},
     cost = 5,
@@ -749,14 +749,14 @@ SMODS.Atlas {
       name = 'Yellow Onion',
       text = {
         "Gains {C:money}+$#2#{} for",
-        "every Diamond card played",
+        "every {C:diamonds}Diamond{} card played",
         "(Maxes at {C:attention}100{})",
         "{C:inactive}(Currently at {C:monery}$#1#{}){}"
       }
     },
     rarity = 2,
     unlocked = true,
-    discovered = false,
+    discovered = true,
     atlas = "MoarJokers",
     pos = {x = 1, y = 4},
     cost = 8,
@@ -791,14 +791,14 @@ SMODS.Atlas {
       name = 'Blue Onion',
       text = {
         "Gains {C:chips}+#2# Chips{} for",
-        "every Club card played",
+        "every {C:clubs}Club{} card played",
         "(Maxes at {C:attention}100{})",
         "{C:inactive}(Currently at {C:chips}#1#{} Chips){}",
       }
     },
     rarity = 1,
     unlocked = true,
-    discovered = false,
+    discovered = true,
     atlas = "MoarJokers",
     pos = {x = 2, y = 4},
     cost = 5,
@@ -866,38 +866,3 @@ SMODS.Atlas {
     end
   }
   
-
-
---SMODS.enhancement{
-  --key = "copper",
-  --loc_txt = 
-  --{
-  --  badge = "Copper Card",
-  --  text = 
-  --  {
-  --    "Retriggers every other",
-  --    "{C:attention}Copper Card{}",
-  --    "played next to eachother"
-  --  }
-  --},
-  --atlas = "MoarEnhancement",
-  --pos = {x = 0, y = 1},
-  --unlocked = true,
-  --discovered = true,
-  --config = {extra = {repetitions = 1}},
-  --calculate = function(self, card, context, effect)
-  --  if context.repetition and context.cardarea == G.play and not context.repetition_only then
-  --    local leftCard, rightCard
-  --    for i, playedCard in pairs(context.scoring_hand) do
-  --    if playedCard == context.other_card then
-  --    leftCard = context.scoring_hand[i-1]
-  --    rightCard = context.scoring_hand[i+1]
-  --    --this *should* make every card of the same enhancement if they are next to eachother. hopefully.
-  --    break
-  --    end
-  --  end
-  --    card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Zapped!", colour = G.C.GOLD})
-  --    effect.repetitions = card.ability.extra.repetitions
-  --end
---end
---}
