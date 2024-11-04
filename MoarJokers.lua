@@ -12,7 +12,7 @@
 --if see 'self' in balatro code, turn it into 'card' in API code
 
  --Creates an atlas for cards to use
- SMODS.Atlas {
+SMODS.Atlas {
     key = "MoarJokers",
     path = "MoarJokers.png",
     px = 71,
@@ -25,22 +25,10 @@
     loc_txt = {
       name = 'X-Ray',
       text = {
-        --There's {X:}, which sets the background, usually used for XMult.
-        --There's {s:}, which is scale, and multiplies the text size by the value, like 0.8
-        --There's one more, {V:1}, but is more advanced, and is used in Castle and Ancient Jokers. It allows for a variable to dynamically change the color, but is very rarely used.
-        --Multiple variables can be used in one space, as long as you separate them with a comma. {C:attention, X:chips, s:1.3} would be the yellow attention color, with a blue chips-colored background,, and 1.3 times the scale of other text.
-        --You can find the vanilla joker descriptions and names as well as several other things in the localization files.
-        --]]
         "All non-face cards played",
         "give {C:mult}+#1#{} Mult"
       }
     },
-    --[[
-    Config sets all the variables for your card, you want to put all numbers here.
-    This is really useful for scaling numbers, but should be done with static numbers -
-        If you want to change the static value, you'd only change this number, instead
-        of going through all your code to change each instance individually.
-    ]]
     config = {extra = {mult = 3}},
     -- loc_vars gives your loc_text variables to work with, in the format of #n#, n being the variable in order.
     -- #1# is the first variable in vars, #2# the second, #3# the third, and so on.
@@ -141,10 +129,10 @@
       name = "High Card Howard",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand is",
         "a {C:attention}High Card{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.15 } },
@@ -184,19 +172,20 @@
       name = "Pair Pauline",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Pair{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.2 } },
+    config = {extra = { XMult = 1, mult_gain = 0.25 } },
     rarity = 2,
     atlas = 'MoarJokers',
     pos = {x = 0, y = 0},
     cost = 5,
     unlocked = true,
     discovered = false,
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
       return {vars = { card.ability.extra.XMult, card.ability.extra.mult_gain }}
     end,
@@ -227,10 +216,10 @@
       name = "Two Pair Theodore",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Two Pair{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.25 } },
@@ -267,13 +256,13 @@
     key = "three-of-a-kind-tedward",
     loc_txt = 
     {
-      name = "Three Of A Kind Tedward",
+      name = "Three of a Kind Tedward",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
-        "contains a {C:attention}Three Of A Kind{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "contains a {C:attention}Three of a Kind{}",
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.33 } },
@@ -293,7 +282,7 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and context.poker_hands == 'Three Of A Kind' and not context.blueprint then
+      if context.before and next(context.poker_hands["Three of a Kind"]) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
@@ -310,13 +299,13 @@
     key = "four-of-a-kind-faye",
     loc_txt = 
     {
-      name = "Four of a Kind Faye",
+      name = "Four of aKind Faye",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Four of a Kind{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.44 } },
@@ -336,7 +325,7 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and context.poker_hands == 'Four Of A Kind' and not context.blueprint then
+      if context.before and next(context.poker_hands['Four of a Kind']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
@@ -353,13 +342,13 @@
     key = "five-of-a-kind-fernando",
     loc_txt = 
     {
-      name = "Five Of A Kind Fernando",
+      name = "Five of a Kind Fernando",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Five of a Kind{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.55 } },
@@ -379,7 +368,7 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and context.poker_hands == 'Five Of A Kind' and not context.blueprint then
+      if context.before and next(context.poker_hands['Five of a Kind']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
@@ -399,13 +388,13 @@
       name = "Straight Stanley",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Straight{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.33 } },
+    config = {extra = { XMult = 1, mult_gain = 0.5 } },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 3, y = 0},
@@ -422,7 +411,7 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and context.poker_hands == 'Straight' and not context.blueprint then
+      if context.before and next(context.poker_hands['Straight']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
@@ -442,13 +431,13 @@
       name = "Flush Felix",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Flush{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.33 } },
+    config = {extra = { XMult = 1, mult_gain = 0.5 } },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 4, y = 0},
@@ -466,14 +455,11 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and context.poker_hands == 'Flush' and not context.blueprint then
+      if context.before and next(context.poker_hands['Flush']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
           colour = G.C.MULT,
-          -- The return value, "card", is set to the variable "card", which is the joker.
-          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
-          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
           card = card
         }
       end
@@ -486,13 +472,13 @@
       name = "Straight Flush Steward",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Straight Flush{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.66 } },
+    config = {extra = { XMult = 1, mult_gain = 0.75 } },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 3, y = 1},
@@ -510,14 +496,11 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and  context.poker_hands == 'Straight Flush' and not context.blueprint then
+      if context.before and next(context.poker_hands['Straight Flush']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
           colour = G.C.MULT,
-          -- The return value, "card", is set to the variable "card", which is the joker.
-          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
-          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
           card = card
         }
       end
@@ -530,13 +513,13 @@
       name = "Full House Filipe",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "Contains a {C:attention}Full House{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.75 } },
+    config = {extra = { XMult = 1, mult_gain = 0.66 } },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 4, y = 1},
@@ -554,14 +537,11 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and  context.poker_hands == 'Full House' and not context.blueprint then
+      if context.before and next(context.poker_hands['Full House']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
           colour = G.C.MULT,
-          -- The return value, "card", is set to the variable "card", which is the joker.
-          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
-          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
           card = card
         }
       end
@@ -574,10 +554,10 @@
       name = "Flush House Felicity",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Flush House{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 1 } },
@@ -598,14 +578,11 @@
           message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
         }
       end
-      if context.before and  context.poker_hands == 'Flush House' and not context.blueprint then
+      if context.before and next(context.poker_hands['Full House']) and not context.blueprint then
         card.ability.extra.XMult = card.ability.extra.XMult + card.ability.extra.mult_gain
         return {
           message = localize('k_upgrade_ex'),
           colour = G.C.MULT,
-          -- The return value, "card", is set to the variable "card", which is the joker.
-          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
-          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
           card = card
         }
       end
@@ -618,10 +595,10 @@
       name = "Flush Five Fabian",
       text = 
       {
-        "Gains {X:red,C:white}x#2#{} Mult",
+        "Gains {X:red,C:white}X#2#{} Mult",
         "if played hand",
         "contains a {C:attention}Flush Five{}",
-        "{C:inactive}(Currently {X:red,C:white}x#1#{C:inactive} Mult)"
+        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
     config = {extra = { XMult = 1, mult_gain = 1 } },
@@ -633,16 +610,9 @@
     discovered = false,
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.XMult, card.ability.extra.mult_gain }}
+      return {vars = {card.ability.extra.XMult, card.ability.extra.mult_gain}}
     end,
     calculate = function(self, card, context)
-      if context.joker_main then
-        return {
-          Xmult_mod = card.ability.extra.XMult,
-          message = localize {type = 'variable', key = 'a_xmult', vars = {card.ability.extra.XMult}}
-        }
-      end
-      calculate = function(self, card, context)
       if context.joker_main then
         return {
           Xmult_mod = card.ability.extra.XMult,
@@ -658,7 +628,6 @@
         }
       end
     end
-end
   }
 
   SMODS.Joker{
@@ -731,7 +700,132 @@ end
       end
     end
   }
-SMODS.Joker {
+  SMODS.Joker {
+    key = 'red-onion',
+    loc_txt = 
+    {
+      name = 'Red Onion',
+      text = {
+        "Gains {C:mult}+#2# Mult{} for",
+        "every Heart card played",
+        "(~axes at {C:attention}100{})",
+        "{C:inactive}(Currently at {C:mult}#1#{} Mult){}"
+      }
+    },
+    rarity = 3,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 0, y = 4},
+    cost = 5,
+    config = {extra = {mult = 0, mult_gain = 1}},
+    blueprint_compat = false,
+    loc_vars = function(self, info_queue, card)
+      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain}}
+    end,
+    calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and not context.blueprint then
+      if context.other_card:is_suit("Hearts") then
+        card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, 100)
+          return{
+            colour = G.C.MULT,
+            card = card,
+            
+          }
+      end 
+    end
+    if context.joker_main then 
+        return{
+              message = localize{type = "variable", key = "a_mult", vars = {card.ability.extra.mult}},
+              mult_mod = card.ability.extra.mult,
+      }
+    end
+  end
+  }
+  SMODS.Joker {
+    key = 'yellow-onion',
+    loc_txt = 
+    {
+      name = 'Yellow Onion',
+      text = {
+        "Gains {C:money}+$#2#{} for",
+        "every Diamond card played",
+        "(Maxes at {C:attention}100{})",
+        "{C:inactive}(Currently at {C:monery}$#1#{}){}"
+      }
+    },
+    rarity = 2,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 1, y = 4},
+    cost = 8,
+    config = {extra = {money = 0, money_gain = 0.5}},
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.money, card.ability.extra.money_gain}}
+    end,
+    calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      if context.other_card:is_suit("Diamonds") then
+        card.ability.extra.money = math.min(card.ability.extra.money + card.ability.extra.money_gain, 100)
+        return{
+          dollars = card.ability.extra.dollars,
+          colour = G.C.MONEY,
+          card = card,
+        }
+        end
+      end
+    end,
+    calc_dollar_bonus = function(self, card)
+      local payout = card.ability.extra.money
+      if payout > 0 then
+        return payout
+      end
+    end
+  }
+  SMODS.Joker {
+    key = 'blue-onion',
+    loc_txt = 
+    {
+      name = 'Blue Onion',
+      text = {
+        "Gains {C:chips}+#2# Chips{} for",
+        "every Club card played",
+        "(Maxes at {C:attention}100{})",
+        "{C:inactive}(Currently at {C:chips}#1#{} Chips){}",
+      }
+    },
+    rarity = 1,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 2, y = 4},
+    cost = 5,
+    config = {extra = {chips = 0, chips_gain = 1}},
+    blueprint_compat = false,
+    loc_vars = function(self, info_queue, card)
+      return {vars = { card.ability.extra.chips, card.ability.extra.chips_gain}}
+    end,
+    calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and not context.blueprint then
+      if context.other_card:is_suit("Clubs") then
+        card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, 100)
+          return{
+            colour = G.C.CHIPS,
+            card = card,
+          }
+      end 
+    end
+    if context.joker_main then 
+        return{
+              message = localize{type = "variable", key = "a_chips", vars = {card.ability.extra.chips}},
+              chip_mod = card.ability.extra.chips,
+      }
+    end
+  end
+  }
+  SMODS.Joker {
     key = 'ice-onion',
     loc_txt = 
     {
@@ -759,6 +853,7 @@ SMODS.Joker {
         return{
           colour = G.C.CHIPS,
           card = card,
+          
         }
       end
       if context.joker_main then 
@@ -770,32 +865,39 @@ SMODS.Joker {
       end
     end
   }
---SMODS.Joker{
-    --key = "awesome-egg",
-    --loc_txt = 
-    --{
-      --name = "Awesome Egg",
-      --text = 
-     --{
-        --"Has a {C:green}#2#/#3#{} chance to",
-        --"{C:Money}x#1#{} sell value",
-        --"at the end of round"
-      --}
-    --},
-    --config = {extra = {Xmoney = 3, odds = 3}},
-    --rarity = 2,
-   --atlas = "MoarJokers",
-    --pos = {x = 0, y = 0},
-    --cost = 4,
-    --unlocked = false,
-    --discovered = false,
-    --blueprint_compat = false,
-    --loc_vars = function(self, info_queue, card)
-      --return {vars = { card.ability.extra.Xmoney}}
-    --end,
-    --if context.end_of_round and not context.game_over and not context.repetition and not context.blueprint then
-      --if pseudorandom('awesome-egg') < G.GAME.probabilities.normal / card.ability.extra.odds then
-      --card.sell_cost = card.sell_cost * card.ability.extra.Xmoney
-      --card = card
-    --end
-  --}
+  
+
+
+--SMODS.enhancement{
+  --key = "copper",
+  --loc_txt = 
+  --{
+  --  badge = "Copper Card",
+  --  text = 
+  --  {
+  --    "Retriggers every other",
+  --    "{C:attention}Copper Card{}",
+  --    "played next to eachother"
+  --  }
+  --},
+  --atlas = "MoarEnhancement",
+  --pos = {x = 0, y = 1},
+  --unlocked = true,
+  --discovered = true,
+  --config = {extra = {repetitions = 1}},
+  --calculate = function(self, card, context, effect)
+  --  if context.repetition and context.cardarea == G.play and not context.repetition_only then
+  --    local leftCard, rightCard
+  --    for i, playedCard in pairs(context.scoring_hand) do
+  --    if playedCard == context.other_card then
+  --    leftCard = context.scoring_hand[i-1]
+  --    rightCard = context.scoring_hand[i+1]
+  --    --this *should* make every card of the same enhancement if they are next to eachother. hopefully.
+  --    break
+  --    end
+  --  end
+  --    card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Zapped!", colour = G.C.GOLD})
+  --    effect.repetitions = card.ability.extra.repetitions
+  --end
+--end
+--}
