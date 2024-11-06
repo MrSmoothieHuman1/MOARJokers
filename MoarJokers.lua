@@ -719,12 +719,12 @@ SMODS.Atlas {
     pos = {x = 0, y = 4},
     cost = 5,
     config = {extra = {mult = 0, mult_gain = 1}},
-    blueprint_compat = false,
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
       return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain}}
     end,
     calculate = function(self, card, context)
-    if context.individual and context.cardarea == G.play and not context.blueprint then
+    if context.individual and context.cardarea == G.play then
       if context.other_card:is_suit("Hearts") then
         card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, 100)
           return{
@@ -803,12 +803,12 @@ SMODS.Atlas {
     pos = {x = 2, y = 4},
     cost = 5,
     config = {extra = {chips = 0, chips_gain = 1}},
-    blueprint_compat = false,
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
       return {vars = { card.ability.extra.chips, card.ability.extra.chips_gain}}
     end,
     calculate = function(self, card, context)
-    if context.individual and context.cardarea == G.play and not context.blueprint then
+    if context.individual and context.cardarea == G.play then
       if context.other_card:is_suit("Clubs") then
         card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, 100)
           return{
@@ -824,6 +824,120 @@ SMODS.Atlas {
       }
     end
   end
+  }
+  SMODS.Joker {
+    key = 'purple-onion',
+    loc_txt = 
+    {
+      name = 'Purple Onion',
+      text = {
+        "Gains {C:mult}+#2# Mult{} and",
+        "Gains {C:chips}+#4# Chips{} for",
+        "every {C:hearts}Heart{} and {C:clubs}Club{} card played",
+        "(Maxes at {C:attention}100{})",
+        "{C:inactive}(Currently at {C:mult}#1#{} Mult){}",
+        "{C:inactive}(Currently at {C:chips}#3#{} Chips){}",
+      }
+    },
+    rarity = 3,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 4, y = 4},
+    cost = 7,
+    config = {extra = {mult = 0, mult_gain = 1, chips = 0, chips_gain = 1}},
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.chips, card.ability.extra.chips_gain}}
+    end,
+    calculate = function(self, card, context)
+      if context.individual and context.cardarea == G.play then
+        if context.other_card:is_suit("Hearts") then
+          card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, 100)
+          return{
+              colour = G.C.MULT,
+              card = card,
+            }
+        elseif context.other_card:is_suit("Clubs") then
+          card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, 100)
+          return{
+            colour = G.C.CHIPS,
+            card = card,
+          }
+        end 
+        end
+        if context.joker_main then
+            return{
+                  message = localize{type = "variable", key = "a_chips", vars = {card.ability.extra.chips}},
+                  message = localize{type = "variable", key = "a_mult", vars = {card.ability.extra.mult}},
+                  chip_mod = card.ability.extra.chips,
+                  mult_mod = card.ability.extra.mult,
+          } 
+      end
+    end
+  }
+  SMODS.Joker {
+    key = 'white-onion',
+    loc_txt = {
+      name = 'White Onion',
+      text = {
+        "Gains +#2# Retrigger when",
+        "a {C:hearts}Heart{}, {C:spades}Spade{},",
+        "{C:clubs}Club{} and {C:diamonds}Diamond{} card are played",
+        "(Maxes at {C:attention}10{})",
+        "{C:inactive}(Currently at #1# Retriggers){}",
+        "{C:inactive}(Thank you to fem for making this work!){}"
+      }
+    },
+    config = {extra = {repetitions = 0, repetitions_gain = 1}},
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.repetitions, card.ability.extra.repetitions_gain}}
+    end,
+    rarity = 3,
+    unlocked = true,
+    discovered = true,
+    atlas = 'MoarJokers',
+    pos = {x = 3, y = 4},
+    cost = 7,
+    blueprint_compat = false,
+    calculate = function(self, card, context)
+      if context.joker_main and not context.blueprint then
+        local suits = {
+          ['Diamonds'] = 0,
+          ['Spades'] = 0,
+          ['Hearts'] = 0,
+          ['Clubs'] = 0,
+        }
+        local suits_req = {
+          ['Diamonds'] = 1,
+          ['Spades'] = 1,
+          ['Hearts'] = 1,
+          ['Clubs'] = 1,
+        }
+        for i = 1, #context.scoring_hand do
+          if context.scoring_hand[i].ability.name ~= 'Wild Card' and not context.scoring_hand[i].config.center.any_suit then
+            for k, v in pairs(suits) do
+              if context.scoring_hand[i]:is_suit(k) then
+                suits[k] = suits[k] + 1
+              end
+            end
+          end
+        end
+        if suits['Diamonds'] >= suits_req['Diamonds']
+        and suits['Spades'] >= suits_req['Spades']
+        and suits['Hearts'] >= suits_req['Hearts']
+        and suits['Clubs'] >= suits_req['Clubs'] then
+          card.ability.extra.repetitions = math.min(card.ability.extra.repetitions + card.ability.extra.repetitions_gain, 10)
+        end
+      end
+      if context.repetition and context.cardarea == G.play then
+        return {
+          message = localize('k_again_ex'),
+          repetitions = card.ability.extra.repetitions,
+          card = card
+        }
+      end
+    end
   }
   SMODS.Joker {
     key = 'ice-onion',
@@ -843,12 +957,12 @@ SMODS.Atlas {
     pos = {x = 2, y = 5},
     cost = 6,
     config = {extra = {chips = 0}},
-    blueprint_compat = false,
+    blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
       return {vars = {card.ability.extra.chips}}
     end,
     calculate = function(self, card, context)
-    if context.individual and context.cardarea == G.play and not context.blueprint then
+    if context.individual and context.cardarea == G.play then
       card.ability.extra.chips = card.ability.extra.chips + context.other_card.base.nominal / 2
         return{
           colour = G.C.CHIPS,
@@ -866,3 +980,38 @@ SMODS.Atlas {
     end
   }
   
+
+
+--SMODS.enhancement{
+  --key = "copper",
+  --loc_txt = 
+  --{
+  --  badge = "Copper Card",
+  --  text = 
+  --  {
+  --    "Retriggers every other",
+  --    "{C:attention}Copper Card{}",
+  --    "played next to eachother"
+  --  }
+  --},
+  --atlas = "MoarEnhancement",
+  --pos = {x = 0, y = 1},
+  --unlocked = true,
+  --discovered = true,
+  --config = {extra = {repetitions = 1}},
+  --calculate = function(self, card, context, effect)
+  --  if context.repetition and context.cardarea == G.play and not context.repetition_only then
+  --    local leftCard, rightCard
+  --    for i, playedCard in pairs(context.scoring_hand) do
+  --    if playedCard == context.other_card then
+  --    leftCard = context.scoring_hand[i-1]
+  --    rightCard = context.scoring_hand[i+1]
+  --    --this *should* make every card of the same enhancement if they are next to eachother. hopefully.
+  --    break
+  --    end
+  --  end
+  --    card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Zapped!", colour = G.C.GOLD})
+  --    effect.repetitions = card.ability.extra.repetitions
+  --end
+--end
+--}
