@@ -287,9 +287,6 @@ SMODS.Atlas {
         return {
           message = localize('k_upgrade_ex'),
           colour = G.C.MULT,
-          -- The return value, "card", is set to the variable "card", which is the joker.
-          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
-          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
           card = card
         }
       end
@@ -299,7 +296,7 @@ SMODS.Atlas {
     key = "four-of-a-kind-faye",
     loc_txt = 
     {
-      name = "Four of aKind Faye",
+      name = "Four of a Kind Faye",
       text = 
       {
         "Gains {X:red,C:white}X#2#{} Mult",
@@ -309,7 +306,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.44 } },
-    rarity = 2,
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 1, y = 1},
     cost = 5,
@@ -352,7 +349,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = { XMult = 1, mult_gain = 0.55 } },
-    rarity = 2,
+    rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 2, y = 1},
     cost = 5,
@@ -644,7 +641,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = {mult = 5, chips = 11}},
-    rarity = 1,
+    rarity = 2,
     atlas = "MoarJokers",
     pos = {x = 1, y = 3},
     cost = 5,
@@ -679,7 +676,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = {mult = 4, chips = 25}},
-    rarity = 1,
+    rarity = 2,
     atlas = "MoarJokers",
     pos = {x = 2, y = 3},
     cost = 5,
@@ -708,7 +705,7 @@ SMODS.Atlas {
       text = {
         "Gains {C:mult}+#2# Mult{} for",
         "every {C:hearts}Heart{} card played",
-        "(~axes at {C:attention}100{})",
+        "(Maxes at {C:attention}100{})",
         "{C:inactive}(Currently at {C:mult}#1#{} Mult){}"
       }
     },
