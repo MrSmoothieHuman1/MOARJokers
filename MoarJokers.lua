@@ -287,6 +287,9 @@ SMODS.Atlas {
         return {
           message = localize('k_upgrade_ex'),
           colour = G.C.MULT,
+          -- The return value, "card", is set to the variable "card", which is the joker.
+          -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
+          -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
           card = card
         }
       end
@@ -641,7 +644,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = {mult = 5, chips = 11}},
-    rarity = 2,
+    rarity = 1,
     atlas = "MoarJokers",
     pos = {x = 1, y = 3},
     cost = 5,
@@ -676,7 +679,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = {mult = 4, chips = 25}},
-    rarity = 2,
+    rarity = 1,
     atlas = "MoarJokers",
     pos = {x = 2, y = 3},
     cost = 5,
@@ -705,7 +708,7 @@ SMODS.Atlas {
       text = {
         "Gains {C:mult}+#2# Mult{} for",
         "every {C:hearts}Heart{} card played",
-        "(Maxes at {C:attention}100{})",
+        "(Maxes at {C:attention}#3#{})",
         "{C:inactive}(Currently at {C:mult}#1#{} Mult){}"
       }
     },
@@ -715,15 +718,15 @@ SMODS.Atlas {
     atlas = "MoarJokers",
     pos = {x = 0, y = 4},
     cost = 5,
-    config = {extra = {mult = 0, mult_gain = 1}},
+    config = {extra = {mult = 0, mult_gain = 1, max = 100}},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain}}
+      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.max}}
     end,
     calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play then
       if context.other_card:is_suit("Hearts") then
-        card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, 100)
+        card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, card.ability.extra.max)
           return{
             colour = G.C.MULT,
             card = card,
@@ -747,7 +750,7 @@ SMODS.Atlas {
       text = {
         "Gains {C:money}+$#2#{} for",
         "every {C:diamonds}Diamond{} card played",
-        "(Maxes at {C:attention}100{})",
+        "(Maxes at {C:attention}#3#{})",
         "{C:inactive}(Currently at {C:monery}$#1#{}){}"
       }
     },
@@ -757,15 +760,15 @@ SMODS.Atlas {
     atlas = "MoarJokers",
     pos = {x = 1, y = 4},
     cost = 8,
-    config = {extra = {money = 0, money_gain = 0.5}},
+    config = {extra = {mult = 0, mult_gain = 1, max = 100}},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = {card.ability.extra.money, card.ability.extra.money_gain}}
+      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.max}}
     end,
     calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play then
       if context.other_card:is_suit("Diamonds") then
-        card.ability.extra.money = math.min(card.ability.extra.money + card.ability.extra.money_gain, 100)
+        card.ability.extra.money = math.min(card.ability.extra.money + card.ability.extra.money_gain, card.ability.extra.max)
         return{
           dollars = card.ability.extra.dollars,
           colour = G.C.MONEY,
@@ -789,7 +792,7 @@ SMODS.Atlas {
       text = {
         "Gains {C:chips}+#2# Chips{} for",
         "every {C:clubs}Club{} card played",
-        "(Maxes at {C:attention}100{})",
+        "(Maxes at {C:attention}#3#{})",
         "{C:inactive}(Currently at {C:chips}#1#{} Chips){}",
       }
     },
@@ -799,15 +802,15 @@ SMODS.Atlas {
     atlas = "MoarJokers",
     pos = {x = 2, y = 4},
     cost = 5,
-    config = {extra = {chips = 0, chips_gain = 1}},
+    config = {extra = {mult = 0, mult_gain = 1, max = 100}},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.chips, card.ability.extra.chips_gain}}
+      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.max}}
     end,
     calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play then
       if context.other_card:is_suit("Clubs") then
-        card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, 100)
+        card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, card.ability.extra.max)
           return{
             colour = G.C.CHIPS,
             card = card,
@@ -831,7 +834,7 @@ SMODS.Atlas {
         "Gains {C:mult}+#2# Mult{} and",
         "Gains {C:chips}+#4# Chips{} for",
         "every {C:hearts}Heart{} and {C:clubs}Club{} card played",
-        "(Maxes at {C:attention}100{})",
+        "(Maxes at {C:attention}#5#{})",
         "{C:inactive}(Currently at {C:mult}#1#{} Mult){}",
         "{C:inactive}(Currently at {C:chips}#3#{} Chips){}",
       }
@@ -842,44 +845,45 @@ SMODS.Atlas {
     atlas = "MoarJokers",
     pos = {x = 4, y = 4},
     cost = 7,
-    config = {extra = {mult = 0, mult_gain = 1, chips = 0, chips_gain = 1}},
+    config = {extra = {mult = 0, mult_gain = 2, chips = 0, chips_gain = 2.5, max = 100}},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.chips, card.ability.extra.chips_gain}}
+      return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.chips, card.ability.extra.chips_gain, card.ability.extra.max}}
     end,
     calculate = function(self, card, context)
       if context.individual and context.cardarea == G.play then
         if context.other_card:is_suit("Hearts") then
-          card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, 100)
+          card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, card.ability.extra.max)
           return{
               colour = G.C.MULT,
               card = card,
             }
         elseif context.other_card:is_suit("Clubs") then
-          card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, 100)
+          card.ability.extra.chips = math.min(card.ability.extra.chips + card.ability.extra.chips_gain, card.ability.extra.max)
           return{
             colour = G.C.CHIPS,
             card = card,
           }
         end 
         end
-        if card.ability.extra.chips > 0 then
-           SMODS.eval_this(card, {
-                  message = localize{type = "variable", key = "a_chips", vars = {card.ability.extra.chips}},
-                  chip_mod = card.ability.extra.chips,
-                  colour = G.C.CHIPS,
-            })
-         end
-       if card.ability.extra.mult > 0 then
-           SMODS.eval_this(card, {
-                  message = localize{type = "variable", key = "a_mult", vars = {card.ability.extra.mult}},
-                  mult_mod = card.ability.extra.mult,
-                  colour = G.C.MULT,
-            })
-         end
-         end
+        if context.joker_main then
+          if card.ability.extra.chips > 0 then
+          SMODS.eval_this(card, {
+                 message = localize{type = "variable", key = "a_chips", vars = {card.ability.extra.chips}},
+                 chip_mod = card.ability.extra.chips,
+                 colour = G.C.CHIPS,
+           })
+        end
+      if card.ability.extra.mult > 0 then
+          SMODS.eval_this(card, {
+                 message = localize{type = "variable", key = "a_mult", vars = {card.ability.extra.mult}},
+                 mult_mod = card.ability.extra.mult,
+                 colour = G.C.MULT,
+           })
+        end
       end
-    end
+        end
+        
   }
   SMODS.Joker {
     key = 'white-onion',
@@ -889,14 +893,14 @@ SMODS.Atlas {
         "Gains +#2# Retrigger when",
         "a {C:hearts}Heart{}, {C:spades}Spade{},",
         "{C:clubs}Club{} and {C:diamonds}Diamond{} card are played",
-        "(Maxes at {C:attention}10{})",
+        "(Maxes at {C:attention}#3#{})",
         "{C:inactive}(Currently at #1# Retriggers){}",
         "{C:inactive}(Thank you to fem for making this work!){}"
       }
     },
-    config = {extra = {repetitions = 0, repetitions_gain = 1}},
+    config = {extra = {repetitions = 0, repetitions_gain = 1, max = 10}},
     loc_vars = function(self, info_queue, card)
-      return {vars = {card.ability.extra.repetitions, card.ability.extra.repetitions_gain}}
+      return {vars = {card.ability.extra.repetitions, card.ability.extra.repetitions_gain, card.ability.extra.max}}
     end,
     rarity = 3,
     unlocked = true,
@@ -932,7 +936,7 @@ SMODS.Atlas {
         and suits['Spades'] >= suits_req['Spades']
         and suits['Hearts'] >= suits_req['Hearts']
         and suits['Clubs'] >= suits_req['Clubs'] then
-          card.ability.extra.repetitions = math.min(card.ability.extra.repetitions + card.ability.extra.repetitions_gain, 10)
+          card.ability.extra.repetitions = math.min(card.ability.extra.repetitions + card.ability.extra.repetitions_gain, card.ability.extra.max)
         end
       end
       if context.repetition and context.cardarea == G.play then
@@ -944,6 +948,47 @@ SMODS.Atlas {
       end
     end
   }
+  SMODS.Joker {
+    key = 'rock-onion',
+    loc_txt = 
+    {
+      name = 'Rock Onion',
+      text = {
+        "Gains {C:mult}+#2# Mult{} for every",
+        " {C:attention}Stone{} card played and",
+        "permanently gives every played",
+        "{C:attention}Stone{} card {C:mult}+#1# Mult{}",
+        "(Maxes at {C:attention}#3#{})",
+      }
+    },
+    rarity = 3,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 0, y = 5},
+    cost = 6,
+    config = {extra = {mult = 0, mult_gain = 1, max = 100}},
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.max}}
+    end,
+    calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      if context.other_card:get_id() <= 0 then
+        card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, card.ability.extra.max)
+        return {
+            extra = {message = localize('k_upgrade_ex'), colour = G.C.MULT},
+            colour = G.C.MULT,
+            card = card
+        }
+      end
+      if context.joker_main then
+        print("hello jimbo shytes")
+        context.other_card.ability.mult = (context.other_card.ability.mult or 0) + card.ability.extra.mult
+      end
+  end
+end
+}
   SMODS.Joker {
     key = 'ice-onion',
     loc_txt = 
