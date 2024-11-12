@@ -802,10 +802,10 @@ SMODS.Atlas {
     atlas = "MoarJokers",
     pos = {x = 2, y = 4},
     cost = 5,
-    config = {extra = {mult = 0, mult_gain = 1, max = 100}},
+    config = {extra = {chips = 0, chips_gain = 1, max = 100}},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.max}}
+      return {vars = { card.ability.extra.chips, card.ability.extra.chips_gain, card.ability.extra.max}}
     end,
     calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play then
