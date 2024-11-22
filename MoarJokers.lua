@@ -178,7 +178,7 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.25 } },
+    config = {extra = { XMult = 1, mult_gain = 0.2} },
     rarity = 2,
     atlas = 'MoarJokers',
     pos = {x = 0, y = 0},
@@ -644,7 +644,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = {mult = 5, chips = 11}},
-    rarity = 1,
+    rarity = 2,
     atlas = "MoarJokers",
     pos = {x = 1, y = 3},
     cost = 5,
@@ -679,7 +679,7 @@ SMODS.Atlas {
       }
     },
     config = {extra = {mult = 4, chips = 25}},
-    rarity = 1,
+    rarity = 2,
     atlas = "MoarJokers",
     pos = {x = 2, y = 3},
     cost = 5,
@@ -760,10 +760,10 @@ SMODS.Atlas {
     atlas = "MoarJokers",
     pos = {x = 1, y = 4},
     cost = 8,
-    config = {extra = {mult = 0, mult_gain = 1, max = 100}},
+    config = {extra = {money = 0, money_gain = 1, max = 100}},
     blueprint_compat = true,
     loc_vars = function(self, info_queue, card)
-      return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain, card.ability.extra.max}}
+      return {vars = { card.ability.extra.money, card.ability.extra.money_gain, card.ability.extra.max}}
     end,
     calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play then
@@ -1029,8 +1029,6 @@ end
       end
     end
   }
-  
-
 
 --SMODS.enhancement{
   --key = "copper",
