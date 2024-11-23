@@ -7,6 +7,8 @@ The current list of added jokers is here, if you are curious:
 * X-Ray: All non-face cards played give 3+ mult
 * Yin: Retriggers all Spade and Club cards played once.
 * Yang: Retriggers all Heart and Diamond cards played once.
+* Uranium-235: Starts with 4 retriggers, has a 1/2 chance to lose one every hand.
+* Yellowcake: Starts with 6 retriggers, has a 1/3 chance to lose one per hand.
 
 (Xmult Xtravanganza set)
 * High Card Howard: gains 0.15x mult when a High Card is played. (starts at 1x mult)
