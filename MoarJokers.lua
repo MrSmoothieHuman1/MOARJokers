@@ -1029,6 +1029,159 @@ end
       end
     end
   }
+  SMODS.Joker{
+    key = "uranium-235",
+    loc_txt = 
+    {
+      name = 'Uranium-235',
+      text = {
+        "Retriggers {C:attention}all{} cards played #1# times",
+        "{C:green}#2# in #3#{} to",
+        "lose {C:attention}1{} retrigger every hand"
+      }
+    },
+    no_pool_flag = 'uranium_decayed',
+    rarity = 2,
+    unlocked = true,
+    discovered = false,
+    atlas = "MoarJokers",
+    pos = {x = 4, y = 5},
+    cost = 5,
+    config = {extra = {repetitions = 4, odds = 2}},
+    eternal_compat = false,
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.repetitions, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
+    end,
+    calculate = function(self, card, context)
+      if context.cardarea == G.play and context.repetition and not context.repetition_only then 
+        if card.ability.extra.repetitions > 0 then
+        return {
+          message = localize('k_again_ex'),
+          repetitions = card.ability.extra.repetitions,
+          card = card
+      }
+    end
+  end
+    if context.after and not context.repetition and not context.blueprint then
+  if card.ability.extra.repetitions <= 0 then
+    G.E_MANAGER:add_event(Event({
+      func = function()
+        play_sound('tarot1')
+        card.T.r = -0.2
+        card:juice_up(0.3, 0.4)
+        card.states.drag.is = true
+        card.children.center.pinch.x = true
+        -- This part destroys the card.
+        G.E_MANAGER:add_event(Event({
+          trigger = 'after',
+          delay = 0.3,
+          blockable = false,
+          func = function()
+            G.jokers:remove_card(card)
+            card:remove()
+            card = nil
+            return true;
+          end
+        }))
+        return true
+      end
+    }))
+    G.GAME.pool_flags.uranium_decayed = true
+return {
+  message = "Decayed!",
+  colour = G.C.RED,
+}
+end
+end
+if context.after and not context.blueprint and not context.repetition then
+      if pseudorandom('Uranium-235') < G.GAME.probabilities.normal/card.ability.extra.odds and card.ability.extra.repetitions > 0 then
+        card.ability.extra.repetitions = card.ability.extra.repetitions - 1
+        return{
+          message = "Half-lifed!",
+          colour = G.C.RED,
+          card = card
+        }
+  end
+end
+end
+}
+SMODS.Joker{
+  key = "yellowcake",
+  loc_txt = 
+  {
+    name = 'Yellowcake',
+    text = {
+      "Retriggers {C:attention}all{} cards played #1# times",
+      "{C:green}#2# in #3#{} to",
+      "lose {C:attention}1{} retrigger every hand"
+    }
+  },
+  yes_pool_flag = 'uranium_decayed',
+  rarity = 3,
+  unlocked = false,
+  discovered = false,
+  atlas = "MoarJokers",
+  pos = {x = 0, y = 6},
+  cost = 8,
+  config = {extra = {repetitions = 6, odds = 3}},
+  blueprint_compat = true,
+  eternal_compat = false,
+  loc_vars = function(self, info_queue, card)
+    return {vars = {card.ability.extra.repetitions, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
+  end,
+  calculate = function(self, card, context)
+    if context.cardarea == G.play and context.repetition and not context.repetition_only then 
+      if card.ability.extra.repetitions > 0 then
+      return {
+        message = localize('k_again_ex'),
+        repetitions = card.ability.extra.repetitions,
+        card = card
+    }
+  end
+end
+  if context.after and not context.repetition and not context.blueprint then
+if card.ability.extra.repetitions <= 0 then
+  G.E_MANAGER:add_event(Event({
+    func = function()
+      play_sound('tarot1')
+      card.T.r = -0.2
+      card:juice_up(0.3, 0.4)
+      card.states.drag.is = true
+      card.children.center.pinch.x = true
+      -- This part destroys the card.
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.3,
+        blockable = false,
+        func = function()
+          G.jokers:remove_card(card)
+          card:remove()
+          card = nil
+          return true;
+        end
+      }))
+      return true
+    end
+  }))
+return {
+message = "Decayed!",
+colour = G.C.RED,
+}
+end
+end
+if context.after and not context.blueprint and not context.repetition then
+    if pseudorandom('Uranium-235') < G.GAME.probabilities.normal/card.ability.extra.odds and card.ability.extra.repetitions > 0 then
+      card.ability.extra.repetitions = card.ability.extra.repetitions - 1
+      return{
+        message = "Half-lifed!",
+        colour = G.C.RED,
+        card = card
+      }
+end
+end
+end
+}
 
 --SMODS.enhancement{
   --key = "copper",
