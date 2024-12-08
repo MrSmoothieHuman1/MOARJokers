@@ -1264,6 +1264,137 @@ SMODS.Joker{
     end
   end
 }
+SMODS.Joker {
+  key = 'rainbow',
+  loc_txt = {
+    name = 'Rainbow',
+    text = {
+      "When a {C:hearts}Heart{}, {C:spades}Spade{}",
+      "{C:clubs}Club{} and {C:diamonds}Diamond{} card are played, create a",
+      "random {C:tarot}Tarot{} card"
+    }
+  },
+  rarity = 2,
+  unlocked = true,
+  discovered = true,
+  atlas = 'MoarJokers',
+  pos = {x = 1, y = 8},
+  cost = 5,
+  blueprint_compat = false,
+  calculate = function(self, card, context)
+    if context.joker_main and not context.blueprint then
+      local suits = {
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Hearts'] = 0,
+        ['Clubs'] = 0,
+      }
+      local suits_req = {
+        ['Diamonds'] = 1,
+        ['Spades'] = 1,
+        ['Hearts'] = 1,
+        ['Clubs'] = 1,
+      }
+      for i = 1, #context.scoring_hand do
+        if context.scoring_hand[i].ability.name ~= 'Wild Card' and not context.scoring_hand[i].config.center.any_suit then
+          for k, v in pairs(suits) do
+            if context.scoring_hand[i]:is_suit(k) then
+              suits[k] = suits[k] + 1
+            end
+          end
+        end
+      end
+      if suits['Diamonds'] >= suits_req['Diamonds']
+      and suits['Spades'] >= suits_req['Spades']
+      and suits['Hearts'] >= suits_req['Hearts']
+      and suits['Clubs'] >= suits_req['Clubs'] then
+    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        G.E_MANAGER:add_event(Event({
+          trigger = 'before',
+          delay = 0.0,
+          func = (function()
+            local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, 'hal')
+            card:add_to_deck()
+            G.consumeables:emplace(card)
+            G.GAME.consumeable_buffer = 0
+          return true
+        end)}))
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+      end
+    end
+  end
+end
+}
+SMODS.Joker {
+  key = 'double-rainbow',
+  loc_txt = {
+    name = 'Double Rainbow',
+    text = {
+      "When a {C:hearts}Heart{}, {C:spades}Spade{}",
+      "{C:clubs}Club{} and {C:diamonds}Diamond{} card are played, have a",
+      "{C:green}#2# in #1#{} chance to create a",
+      "random {C:spectral}Spectral{} card"
+    }
+  },
+  rarity = 3,
+  unlocked = true,
+  discovered = false,
+  config = {extra = {odds = 2}},
+    loc_vars = function(self, info_queue, card)
+      return {vars = {card.ability.extra.odds, ''..(G.GAME and G.GAME.probabilities.normal or 1)}}
+    end,
+  atlas = 'MoarJokers',
+  pos = {x = 2, y = 8},
+  cost = 8,
+  blueprint_compat = false,
+  calculate = function(self, card, context)
+    if context.joker_main and not context.blueprint then
+      local suits = {
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Hearts'] = 0,
+        ['Clubs'] = 0,
+      }
+      local suits_req = {
+        ['Diamonds'] = 1,
+        ['Spades'] = 1,
+        ['Hearts'] = 1,
+        ['Clubs'] = 1,
+      }
+      for i = 1, #context.scoring_hand do
+        if context.scoring_hand[i].ability.name ~= 'Wild Card' and not context.scoring_hand[i].config.center.any_suit then
+          for k, v in pairs(suits) do
+            if context.scoring_hand[i]:is_suit(k) then
+              suits[k] = suits[k] + 1
+            end
+          end
+        end
+      end
+      if suits['Diamonds'] >= suits_req['Diamonds']
+      and suits['Spades'] >= suits_req['Spades']
+      and suits['Hearts'] >= suits_req['Hearts']
+      and suits['Clubs'] >= suits_req['Clubs'] then
+    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+      if pseudorandom('double-rainbow') < G.GAME.probabilities.normal then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        G.E_MANAGER:add_event(Event({
+          trigger = 'before',
+          delay = 0.0,
+          func = (function()
+            local card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, nil, 'sea')
+            card:add_to_deck()
+            G.consumeables:emplace(card)
+            G.GAME.consumeable_buffer = 0
+          return true
+        end)}))
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+      end
+      end
+    end
+  end
+end
+}
 
 --UI stuff
 if not G.localization.descriptions.Other['card_extra_mult'] then
