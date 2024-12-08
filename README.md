@@ -9,6 +9,8 @@ The current list of added jokers is here, if you are curious:
 * Yang: Retriggers all Heart and Diamond cards played once.
 * Uranium-235: Starts with 4 retriggers, has a 1/2 chance to lose one every hand.
 * Yellowcake: Starts with 6 retriggers, has a 1/3 chance to lose one per hand.
+* Rainbow: If a hand contains all 4 suits, create a random Tarot card.
+* Double Rainbow: If a hand contains all 4 suits, have a 1/2 chance to create a random Spectral card.
 
 (Queer Flags set)
 * Gay Flag: Gains 6+ chips everytime a Pair is played. (Starts at 0 chips)
