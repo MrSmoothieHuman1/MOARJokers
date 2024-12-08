@@ -976,15 +976,12 @@ SMODS.Atlas {
     if context.individual and context.cardarea == G.play then
       if context.other_card:get_id() <= 0 then
         card.ability.extra.mult = math.min(card.ability.extra.mult + card.ability.extra.mult_gain, card.ability.extra.max)
+        context.other_card.ability.mult = context.other_card.ability.mult + card.ability.extra.mult
         return {
             extra = {message = localize('k_upgrade_ex'), colour = G.C.MULT},
             colour = G.C.MULT,
             card = card
         }
-      end
-      if context.joker_main then
-        print("hello jimbo shytes")
-        context.other_card.ability.mult = (context.other_card.ability.mult or 0) + card.ability.extra.mult
       end
   end
 end
@@ -1182,37 +1179,148 @@ end
 end
 end
 }
+SMODS.Joker{
+  key = "gay-flag",
+  loc_txt = 
+  {
+    name = "Gay Flag",
+    text = 
+    {
+      "Gains {C:chips}+#2#{} Chips",
+      "if played hand",
+      "contains a {C:attention}Pair{}",
+      "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
+    }
+  },
+  config = {extra = { chips = 0, chips_gain = 6} },
+  rarity = 2,
+  atlas = 'MoarJokers',
+  pos = {x = 0, y = 7},
+  cost = 4,
+  unlocked = true,
+  discovered = false,
+  blueprint_compat = true,
+  loc_vars = function(self, info_queue, card)
+    return {vars = { card.ability.extra.chips, card.ability.extra.chips_gain}}
+  end,
+  calculate = function(self, card, context)
+    if context.joker_main then
+      return {
+        chip_mod = card.ability.extra.chips,
+        message = localize {type = 'variable', key = 'a_chips', vars = {card.ability.extra.chips}}
+      }
+    end
+    if context.before and next(context.poker_hands['Pair']) and not context.blueprint then
+      card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
+      return {
+        message = localize('k_upgrade_ex'),
+        colour = G.C.CHIPS,
+        card = card
+      }
+    end
+  end
+}
+SMODS.Joker{
+  key = "lesbian-flag",
+  loc_txt = 
+  {
+    name = "Lesbian Flag",
+    text = 
+    {
+      "Gains {C:mult}+#2#{} Mult",
+      "if played hand",
+      "contains a {C:attention}Pair{}",
+      "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
+    }
+  },
+  config = {extra = {mult = 0, mult_gain = 3} },
+  rarity = 2,
+  atlas = 'MoarJokers',
+  pos = {x = 1, y = 7},
+  cost = 5,
+  unlocked = true,
+  discovered = false,
+  blueprint_compat = true,
+  loc_vars = function(self, info_queue, card)
+    return {vars = { card.ability.extra.mult, card.ability.extra.mult_gain }}
+  end,
+  calculate = function(self, card, context)
+    if context.joker_main then
+      return {
+        Xmult_mod = card.ability.extra.mult,
+        message = localize {type = 'variable', key = 'a_mult', vars = {card.ability.extra.mult}}
+      }
+    end
+    if context.before and next(context.poker_hands['Pair']) and not context.blueprint then
+      card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+      return {
+        message = localize('k_upgrade_ex'),
+        colour = G.C.MULT,
+        -- The return value, "card", is set to the variable "card", which is the joker.
+        -- Basically, this tells the return value what it's affecting, which if it's the joker itself, it's usually card.
+        -- It can be things like card = context.other_card in some cases, so specifying card (return value) = card (variable from function) is required.
+        card = card
+      }
+    end
+  end
+}
 
---SMODS.enhancement{
-  --key = "copper",
-  --loc_txt = 
-  --{
-  --  badge = "Copper Card",
-  --  text = 
-  --  {
-  --    "Retriggers every other",
-  --    "{C:attention}Copper Card{}",
-  --    "played next to eachother"
-  --  }
-  --},
-  --atlas = "MoarEnhancement",
-  --pos = {x = 0, y = 1},
-  --unlocked = true,
-  --discovered = true,
-  --config = {extra = {repetitions = 1}},
-  --calculate = function(self, card, context, effect)
-  --  if context.repetition and context.cardarea == G.play and not context.repetition_only then
-  --    local leftCard, rightCard
-  --    for i, playedCard in pairs(context.scoring_hand) do
-  --    if playedCard == context.other_card then
-  --    leftCard = context.scoring_hand[i-1]
-  --    rightCard = context.scoring_hand[i+1]
-  --    --this *should* make every card of the same enhancement if they are next to eachother. hopefully.
-  --    break
-  --    end
-  --  end
-  --    card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Zapped!", colour = G.C.GOLD})
-  --    effect.repetitions = card.ability.extra.repetitions
-  --end
---end
---}
+--UI stuff
+if not G.localization.descriptions.Other['card_extra_mult'] then
+  G.localization.descriptions.Other['card_extra_mult'] = {
+      text = {
+          "{C:mult}+#1#{} extra mult"
+      }
+  }
+  G.localization.descriptions.Other['card_extra_h_mult'] = {
+      text = {
+          "{C:mult}+#1#{} extra mult", 'when held in hand'
+      }
+  }
+  G.localization.descriptions.Other['card_extra_x_mult'] = {
+      text = {
+          "{X:mult,C:white}X#1#{} extra mult"
+      }
+  }
+  G.localization.descriptions.Other['card_extra_h_x_mult'] = {
+      text = {
+          "{X:mult,C:white}X#1#{} extra mult", 'when held in hand'
+      }
+  }
+  G.localization.descriptions.Other['card_extra_h_dollars'] = {
+      text = {
+          "{C:money}+#1#{} extra dollars",'when held in hand'
+      }
+  }
+  G.localization.descriptions.Other['card_extra_p_dollars'] = {
+      text = {
+          "{C:money}+#1#{} extra dollars", 'when played'
+      }
+  }
+  local oldfunc = generate_card_ui
+      function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end,card)
+          full_UI_table = oldfunc(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end,card)
+          if card and card.ability and card.ability.set and (card.ability.set == 'Enhanced' or card.ability.set == 'Default') then
+              local desc_nodes = full_UI_table.main
+              if card.ability.mult ~= 0 and not (_c and _c.effect == 'Mult Card') and not (_c and _c.effect == 'Lucky Card') then
+                  localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {card.ability.mult}}
+              end
+              if card.ability.h_mult ~= 0 then
+                  localize{type = 'other', key = 'card_extra_h_mult', nodes = desc_nodes, vars = {card.ability.h_mult}}
+              end
+              if card.ability.x_mult ~= 1 and not (_c and _c.effect == 'Glass Card') then
+                  localize{type = 'other', key = 'card_extra_x_mult', nodes = desc_nodes, vars = {card.ability.x_mult}}
+              end
+              if card.ability.h_x_mult ~= 0 and not (_c and _c.effect == 'Steel Card') then
+                  localize{type = 'other', key = 'card_extra_h_x_mult', nodes = desc_nodes, vars = {card.ability.h_x_mult}}
+              end
+              if card.ability.h_dollars ~= 0 and not (_c and _c.effect == 'Gold Card') then
+                  localize{type = 'other', key = 'card_extra_h_dollars', nodes = desc_nodes, vars = {card.ability.h_dollars}}
+              end
+              if card.ability.p_dollars ~= 0 and not (_c and _c.effect == 'Lucky Card') then
+                  localize{type = 'other', key = 'card_extra_p_dollars', nodes = desc_nodes, vars = {card.ability.p_dollars}}
+              end
+          end
+          return full_UI_table
+  end
+end
