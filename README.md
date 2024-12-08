@@ -10,6 +10,10 @@ The current list of added jokers is here, if you are curious:
 * Uranium-235: Starts with 4 retriggers, has a 1/2 chance to lose one every hand.
 * Yellowcake: Starts with 6 retriggers, has a 1/3 chance to lose one per hand.
 
+(Queer Flags set)
+* Gay Flag: Gains 6+ chips everytime a Pair is played. (Starts at 0 chips)
+* Lesbian Flag: Gains 3+ mult everytime a Pair is played. (Starts at 0 mult)
+
 (Xmult Xtravanganza set)
 * High Card Howard: gains 0.15x mult when a High Card is played. (starts at 1x mult)
 * Pair Pauline: gains 0.2x mult when a hand containing Pair is played. (starts at 1x mult)
