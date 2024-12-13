@@ -222,7 +222,7 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.25 } },
+    config = {extra = {XMult = 1, mult_gain = 0.22} },
     rarity = 2,
     atlas = 'MoarJokers',
     pos = {x = 2, y = 0},
@@ -394,7 +394,7 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.5 } },
+    config = {extra = { XMult = 1, mult_gain = 0.33 } },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 3, y = 0},
@@ -437,7 +437,7 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.5 } },
+    config = {extra = { XMult = 1, mult_gain = 0.33} },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 4, y = 0},
@@ -519,7 +519,7 @@ SMODS.Atlas {
         "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
       }
     },
-    config = {extra = { XMult = 1, mult_gain = 0.66 } },
+    config = {extra = { XMult = 1, mult_gain = 0.5 } },
     rarity = 3,
     atlas = 'MoarJokers',
     pos = {x = 4, y = 1},
@@ -882,8 +882,7 @@ SMODS.Atlas {
            })
         end
       end
-        end
-        
+        end  
   }
   SMODS.Joker {
     key = 'white-onion',
@@ -1192,8 +1191,8 @@ SMODS.Joker{
       "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
     }
   },
-  config = {extra = { chips = 0, chips_gain = 6} },
-  rarity = 2,
+  config = {extra = { chips = 0, chips_gain = 4} },
+  rarity = 1,
   atlas = 'MoarJokers',
   pos = {x = 0, y = 7},
   cost = 4,
@@ -1233,7 +1232,7 @@ SMODS.Joker{
       "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
     }
   },
-  config = {extra = {mult = 0, mult_gain = 3} },
+  config = {extra = {mult = 0, mult_gain = 4} },
   rarity = 2,
   atlas = 'MoarJokers',
   pos = {x = 1, y = 7},
@@ -1395,6 +1394,95 @@ SMODS.Joker {
   end
 end
 }
+SMODS.Joker {
+  key = 'hitchhiker',
+  loc_txt = {
+    name = 'Hitchhiker',
+    text = {
+      "Every card played gains a permanent",
+      "{C:mult}+#1#{} Mult when scored"
+    }
+  },
+  config = {extra = {mult_gain = 0.5}},
+  loc_vars = function(self, info_queue, card)
+    return {vars = {card.ability.extra.mult_gain}}
+  end,
+  rarity = 2,
+  unlocked = true,
+  discovered = false,
+  blueprint_compat = true,
+  atlas = 'MoarJokers',
+  pos = {x = 3, y = 3},
+  cost = 5,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      context.other_card.ability.mult = context.other_card.ability.mult or 0
+      context.other_card.ability.mult = context.other_card.ability.mult + card.ability.extra.mult_gain
+      return {
+          extra = {message = localize('k_upgrade_ex'), colour = G.C.MULT},
+          colour = G.C.MULT,
+          card = card
+      }
+    end
+  end
+}
+SMODS.Joker {
+  key = 'cracking-jokes',
+  loc_txt = {
+    name = 'Cracking Jokes',
+    text = {
+      "Gains {C:chips}+#1#{} Chips and {C:mult}+#2#{} Mult",
+      "{C:attention}after{} every hand",
+      "When Chips or Mult reach {C:attention}#5#{},",
+      "gain it all in the {C:attention}next{} hand played",
+      "(Currenty at {C:chips}#3#{} Chips)",
+      "(Currenty at {C:mult}#4#{} Mult)",
+    }
+  },
+  config = {extra = {chips_gain = 5, mult_gain = 2.5, chips = 0, mult = 0, max = 20,}},
+  loc_vars = function(self, info_queue, card)
+    return {vars = {card.ability.extra.chips_gain, card.ability.extra.mult_gain, card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.max}}
+  end,
+  rarity = 1,
+  unlocked = true,
+  discovered = false,
+  atlas = 'MoarJokers',
+  pos = {x = 3, y = 8},
+  cost = 6,
+  calculate = function(self, card, context)
+    if context.after and not context.repetition and not context.blueprint then
+        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
+        card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+        return{
+          message = "Cooking!",
+          colour = G.C.CHIPS,
+          card = card,
+        }
+    end
+    if context.before then
+      if card.ability.extra.chips >= 20 then
+      SMODS.eval_this(card, {
+        message = localize{type = "variable", key = "a_chips", vars = {card.ability.extra.chips}},
+        chip_mod = card.ability.extra.chips,
+        colour = G.C.CHIPS,
+       })
+      if card.ability.extra.chips >= 20 then
+        card.ability.extra.chips = 0
+      end
+    end
+  if card.ability.extra.mult >= 20 then
+      SMODS.eval_this(card, {
+        message = localize{type = "variable", key = "a_mult", vars = {card.ability.extra.mult}},
+        mult_mod = card.ability.extra.mult,
+        colour = G.C.MULT,
+       }) 
+      if card.ability.extra.mult >= 20 then
+        card.ability.extra.mult = 0
+      end
+    end
+  end
+end 
+}
 
 --UI stuff
 if not G.localization.descriptions.Other['card_extra_mult'] then
@@ -1455,3 +1543,5 @@ if not G.localization.descriptions.Other['card_extra_mult'] then
           return full_UI_table
   end
 end
+
+--if next(SMODS.find_card('red-onion'))
