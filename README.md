@@ -13,6 +13,8 @@ The current list of added jokers is here, if you are curious:
 * Double Rainbow: If a hand contains all 4 suits, have a 1/2 chance to create a random Spectral card.
 * Hitchhiker: gives every card played a permanent 0.5+ mult when scored.
 * Cracking Jokes: Gains 5+ chips and 2.5+ mult after every hand, when mult or chips reach 20, gain it in the next hand played. (Starts at 0)
+* Prime Number Paul: Cards played that are in the Prime Number sit give 4+ mult and 11+ chips. (2, 3, 5, 7, A)
+* Semi-Prime Saul: Cards played that are in the Semi-Prime set give 5+ mult and 25+ chips. (4, 6, 9, 10)
 
 (Queer Flags set)
 * Gay Flag: Gains 6+ chips everytime a Pair is played. (Starts at 0 chips)
@@ -32,6 +34,11 @@ The current list of added jokers is here, if you are curious:
 * Flush House Felicity: gains 1x mult when a hand containing Flush House is played. (starts at 1x mult)
 * Flush Five Fabian: gains 1x mult when a hand containing Flush Five is played. (starts at 1x mult)
 
-(Extended odd/even set)
-* Prime Number Paul: Cards played that are in the Prime Number sit give 4+ mult and 11+ chips. (2, 3, 5, 7, A)
-* Semi-Prime Saul: Cards played that are in the Semi-Prime set give 5+ mult and 25+ chips. (4, 6, 9, 10)
+(Onion Jokers set)
+* Red Onion: Gains 1+ mult for every Heart card played. (Starts at 0, Maxes at 100)
+* Yellow Onion: Gains 0.5$+ for every Diamond card played. (Starts at 0, Maxes at 100)
+* Blue Onion: Gains 1+ chips for every Clubs card played. (Starts at 0, Maxes at 100)
+* Purple Onion: Gains 2+ mult for every Heart card played and 2.5+ chips for every Club card played. (Starts at 0, Maxes at 100)
+* White Onion: If a hand contains all 4 suits, gain 1 retrigger. (Starts at 0, Maxes at 10)
+* Rock Onion: Gains 1+ mult for every stone card played, and gives every stone card played the amount of mult gained. (Starts at 0)
+* Ice Onion: Gains half the amount of chips given by every card played. (Starts at 0)
